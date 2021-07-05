@@ -1,8 +1,10 @@
 import { fleet, mission, regiment } from "../../interface/common";
 import { infrastructure, refinery } from "../../interface/infrastructure";
-import { coodinate, planetInfo, ground } from "../../interface/planetInfo";
+import { planetInfo, ground } from "../../interface/planetInfo";
+import { coordinate } from "../../interface/types";
+import { DebugSector, Sector } from "./sector";
 
-abstract class Planet {
+export abstract class Planet {
   protected infrastructure: infrastructure = {
     manufacturing: [],
     shipyards: [],
@@ -24,7 +26,7 @@ abstract class Planet {
     planetAttack: [],
   };
 
-  constructor(protected info: planetInfo, protected position: coodinate) {}
+  constructor(protected info: planetInfo, protected position: coordinate) {}
 
   public getInfo() {
     return this.info;
@@ -68,7 +70,7 @@ export class DebugPlanet extends Planet {
       {
         id: -1,
         name: "debugPlanet",
-        sector: "debug",
+        sector: new DebugSector(),
         type: "Core system",
         description: "debug description",
         area: [],

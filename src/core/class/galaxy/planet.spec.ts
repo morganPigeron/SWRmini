@@ -1,7 +1,9 @@
 import { fleet, mission, regiment } from "../../interface/common";
 import { infrastructure } from "../../interface/infrastructure";
-import { coodinate, ground, planetInfo } from "../../interface/planetInfo";
+import { ground, planetInfo } from "../../interface/planetInfo";
+import { coordinate } from "../../interface/types";
 import { DebugPlanet } from "./planet";
+import { DebugSector } from "./sector";
 
 describe("Debug planet initialisation test suite", () => {
   const planet = new DebugPlanet();
@@ -10,7 +12,7 @@ describe("Debug planet initialisation test suite", () => {
     expect(planet.getInfo()).toMatchObject<planetInfo>({
       id: -1,
       name: "debugPlanet",
-      sector: "debug",
+      sector: new DebugSector(),
       type: "Core system",
       description: "debug description",
       area: [],
@@ -20,7 +22,7 @@ describe("Debug planet initialisation test suite", () => {
   });
 
   it("has coordinates", () => {
-    expect(planet.getPosition()).toMatchObject<coodinate>({
+    expect(planet.getPosition()).toMatchObject<coordinate>({
       x: 0,
       y: 0,
       z: 0,
@@ -67,7 +69,7 @@ describe("Debug planet Modification test suite", () => {
     maintenanceCost: 9,
     attackStrength: 15,
     defenceStrength: 9,
-    bombDefence: 12,
+    bombardmentDefense: 12,
     description: "lorem",
   };
 
@@ -78,7 +80,7 @@ describe("Debug planet Modification test suite", () => {
     maintenanceCost: 5,
     attackStrength: 10,
     defenceStrength: 5,
-    bombDefence: 8,
+    bombardmentDefense: 8,
     description: "lorem",
   };
 
@@ -91,6 +93,4 @@ describe("Debug planet Modification test suite", () => {
     planet.removeRegiments([0]);
     expect(planet.getGround().regiments).toStrictEqual([clone]);
   });
-
-  
 });

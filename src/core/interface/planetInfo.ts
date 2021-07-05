@@ -1,9 +1,12 @@
+import { Sector, sector, systemType } from "../class/galaxy/sector";
+import { PlanetaryDefence } from "../class/planetaryDefence/planetaryDefence";
 import { people, regiment, ship } from "./common";
+import { planetName, factionsAllegiance } from "./types";
 
 export interface planetInfo {
   id: number;
   name: planetName;
-  sector: sector;
+  sector: Sector;
   type: systemType;
   description: string;
   area: boolean[];
@@ -15,18 +18,14 @@ export interface ground {
   persons: people[];
   regiments: regiment[];
   fighters: ship[];
-  planetDefence: planetaryDefence[];
+  planetDefence: PlanetaryDefence[];
   planetAttack: planetaryAttack[];
 }
 
 
 
-export interface planetaryDefence {}
-
 export interface planetaryAttack {}
 
-export type systemType = "Core system" | "Rim system";
-export type sector = "debug";
-export type planetName = "debugPlanet";
-export type factionsAllegiance = { FACTION: number };
-export type coodinate = { x: number; y: number; z: number };
+
+
+
