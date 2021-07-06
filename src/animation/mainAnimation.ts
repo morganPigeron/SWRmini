@@ -7,14 +7,10 @@ import {
   BoxGeometry,
   MeshBasicMaterial,
   Mesh,
-  Vector3,
   Color,
-  Object3D,
-  Light,
 } from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import { rgb } from "d3";
 
 export abstract class MainAnimation {
   protected models: Model3D[] = [];
@@ -70,16 +66,9 @@ export class DebugMainAnimation extends MainAnimation {
 
     //control
     const controls = new OrbitControls(this.camera, this.renderer.domElement);
-    
-    //light
-    /*
-    const light = new Light(0xFFFFFF, 0xFFFFFF);
-    this.scene.add(light);
-    */
 
     //background
-    this.scene.background = new Color( 0x222222 );
-
+    this.scene.background = new Color(0x222222);
 
     //event
     window.addEventListener("resize", () => this.resize());
@@ -102,51 +91,15 @@ export class DebugMainAnimation extends MainAnimation {
     this.renderer.render(this.scene, this.camera);
   }
 
-  public loadModels(url: string) {}
-}
-
-export abstract class Model3D {
-  public abstract show(scene: Scene): void;
-}
-
-export class Cube3D extends Model3D {
-  private cube: Mesh;
-
-  constructor() {
-    super();
-    const geometry = new BoxGeometry(
-      Math.random() * 0.01,
-      Math.random() * 0.01,
-      Math.random() * 0.01
-    );
-    const material = new MeshBasicMaterial({ color: new Color(50, 50, 180) });
-    this.cube = new Mesh(geometry, material);
-  }
-
-  public show(scene: Scene) {
-    this.cube.position.x = Math.random();
-    this.cube.position.y = Math.random();
-    this.cube.position.z = Math.random();
-    scene.add(this.cube);
-  }
-}
-
-export class Galaxy extends Model3D {
-
-  constructor(scene:Scene) {
-    super();
-
+  public loadModels(url: string) {
     const loader = new GLTFLoader();
-    const url = "assets/galaxy/scene.gltf";
-
     // Load a glTF resource
     loader.load(
       // resource URL
       url,
       // called when the resource is loaded
       (gltf) => {
-        scene.add(gltf.scene);
-
+        this.scene.add(gltf.scene);
         //gltf.animations; // Array<THREE.AnimationClip>
         //gltf.scene; // THREE.Group
         //gltf.scenes; // Array<THREE.Group>
@@ -163,6 +116,11 @@ export class Galaxy extends Model3D {
       }
     );
   }
+}
 
+export abstract class Model3D {
+  public abstract show(scene: Scene): void;
+}
+export class Galaxy extends Model3D {
   public show(scene: Scene) {}
 }
