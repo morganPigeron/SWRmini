@@ -1,7 +1,19 @@
 import { GUI } from "dat.gui";
-import { PerspectiveCamera, Scene, WebGLRenderer, Clock, BoxGeometry, MeshBasicMaterial, Mesh, Vector3, Color } from "three";
-import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader';
-import { OrbitControls} from'three/examples/jsm/controls/OrbitControls'
+import {
+  PerspectiveCamera,
+  Scene,
+  WebGLRenderer,
+  Clock,
+  BoxGeometry,
+  MeshBasicMaterial,
+  Mesh,
+  Vector3,
+  Color,
+  Object3D,
+  Light,
+} from "three";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { rgb } from "d3";
 
 export abstract class MainAnimation {
@@ -9,20 +21,20 @@ export abstract class MainAnimation {
 
   constructor(
     protected camera: PerspectiveCamera,
-    protected scene: Scene,
+    public scene: Scene,
     protected renderer: WebGLRenderer,
-    protected clock: Clock,
-  ){}
+    protected clock: Clock
+  ) {}
 
-  protected abstract fixedUpdate(deltaTime:number):void;
-  protected abstract update():void;
-  
-  public addModel(model:Model3D) {
+  protected abstract fixedUpdate(deltaTime: number): void;
+  protected abstract update(): void;
+
+  public addModel(model: Model3D) {
     this.models.push(model);
   }
 
-  public showModels(){
-    this.models.forEach(m=>m.show(this.scene));
+  public showModels() {
+    this.models.forEach((m) => m.show(this.scene));
   }
 
   protected resize() {
@@ -30,25 +42,23 @@ export abstract class MainAnimation {
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(window.innerWidth, window.innerHeight);
   }
-
 }
 
 export class DebugMainAnimation extends MainAnimation {
   private guiDebug: GUI;
 
-  constructor(){
-
+  constructor() {
     const canvas = document.getElementById("anim") as HTMLCanvasElement;
 
     super(
       new PerspectiveCamera(
         70,
         window.innerWidth / window.innerHeight,
-        0.01,
-        10
+        0.25,
+        20
       ),
       new Scene(),
-      new WebGLRenderer({canvas}),
+      new WebGLRenderer({ canvas }),
       new Clock()
     );
 
@@ -56,16 +66,23 @@ export class DebugMainAnimation extends MainAnimation {
 
     this.camera.position.z = 2;
 
-    this.guiDebug
-      .add(this.camera.position, 'y')
-      .min(-10)
-      .max(0);
+    this.guiDebug.add(this.camera.position, "y").min(-10).max(0);
 
     //control
-    const controls = new OrbitControls( this.camera, this.renderer.domElement );
+    const controls = new OrbitControls(this.camera, this.renderer.domElement);
+    
+    //light
+    /*
+    const light = new Light(0xFFFFFF, 0xFFFFFF);
+    this.scene.add(light);
+    */
+
+    //background
+    this.scene.background = new Color( 0x222222 );
+
 
     //event
-    window.addEventListener('resize', () => this.resize());
+    window.addEventListener("resize", () => this.resize());
 
     //anim
     this.clock = new Clock();
@@ -74,46 +91,78 @@ export class DebugMainAnimation extends MainAnimation {
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(window.innerWidth, window.innerHeight);
-    
+
     this.renderer.setAnimationLoop(() => this.update());
   }
 
-  public fixedUpdate(deltaTime:number) {
-    
-  }
+  public fixedUpdate(deltaTime: number) {}
 
   public update() {
     this.fixedUpdate(this.clock.getDelta());
     this.renderer.render(this.scene, this.camera);
   }
 
-  public loadModels(url:string) {
-
-  }
+  public loadModels(url: string) {}
 }
 
-
 export abstract class Model3D {
-  public abstract show(scene:Scene ):void;
+  public abstract show(scene: Scene): void;
 }
 
 export class Cube3D extends Model3D {
-
   private cube: Mesh;
-  
+
   constructor() {
     super();
-    const geometry = new BoxGeometry( Math.random()*0.01, Math.random()*0.01, Math.random()*0.01 );
-    const material = new MeshBasicMaterial( {color: new Color(50,50,180) } );
-    this.cube = new Mesh( geometry, material );
-    
+    const geometry = new BoxGeometry(
+      Math.random() * 0.01,
+      Math.random() * 0.01,
+      Math.random() * 0.01
+    );
+    const material = new MeshBasicMaterial({ color: new Color(50, 50, 180) });
+    this.cube = new Mesh(geometry, material);
   }
 
-  public show(scene:Scene) {
+  public show(scene: Scene) {
     this.cube.position.x = Math.random();
     this.cube.position.y = Math.random();
     this.cube.position.z = Math.random();
-    scene.add( this.cube );
+    scene.add(this.cube);
+  }
+}
+
+export class Galaxy extends Model3D {
+
+  constructor(scene:Scene) {
+    super();
+
+    const loader = new GLTFLoader();
+    const url = "assets/galaxy/scene.gltf";
+
+    // Load a glTF resource
+    loader.load(
+      // resource URL
+      url,
+      // called when the resource is loaded
+      (gltf) => {
+        scene.add(gltf.scene);
+
+        //gltf.animations; // Array<THREE.AnimationClip>
+        //gltf.scene; // THREE.Group
+        //gltf.scenes; // Array<THREE.Group>
+        //gltf.cameras; // Array<THREE.Camera>
+        //gltf.asset; // Object
+      },
+      // called while loading is progressing
+      (xhr) => {
+        console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+      },
+      // called when loading has errors
+      (error) => {
+        console.log(`An error happened ${error}`);
+      }
+    );
   }
 
+  public show(scene: Scene) {}
 }
