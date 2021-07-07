@@ -6,6 +6,8 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import {RGBELoader} from "three/examples/jsm/loaders/RGBELoader";
 import { DebugMainAnimation, Galaxy } from "./animation/mainAnimation"
 
+//const mouse = new THREE.Vector2();
+//let raycaster = new THREE.Raycaster();
 
 /*
 console.log('test')
@@ -36,6 +38,8 @@ camera.position.z = 7
 camera.position.x = 7
 camera.position.y = 5
 
+
+
 const renderer: WebGLRenderer = new WebGLRenderer()
 //renderer.physicallyCorrectLights = true
 //renderer.shadowMap.enabled = true
@@ -51,8 +55,7 @@ const controls = new OrbitControls(camera, renderer.domElement);
 
 // CREATING CONST MOUSE MAKE EVERYTHING DISEAPEAR
 
-//const mouse = new THREE.Vector2(1,1);
-//let raycaster = new THREE.Raycaster();
+
 
 
 				
