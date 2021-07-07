@@ -171,6 +171,8 @@ var animate = function () {
     //hoverSector();
     requestAnimationFrame(animate)
 
+    scene.children.forEach(c=>c.rotateY(-0.0001));
+
     controls.update()
 
     render()
