@@ -6,8 +6,6 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import {RGBELoader} from "three/examples/jsm/loaders/RGBELoader";
 import { DebugMainAnimation, Galaxy } from "./animation/mainAnimation"
 
-//const mouse = new THREE.Vector2();
-//let raycaster = new THREE.Raycaster();
 
 /*
 console.log('test')
@@ -37,8 +35,6 @@ const camera: PerspectiveCamera = new PerspectiveCamera(75, window.innerWidth / 
 camera.position.z = 7
 camera.position.x = 7
 camera.position.y = 5
-
-
 
 const renderer: WebGLRenderer = new WebGLRenderer()
 //renderer.physicallyCorrectLights = true
@@ -144,7 +140,8 @@ loader.load(
     }
 );
 
-
+//const mouse = new THREE.Vector2(1,1);
+//let raycaster = new THREE.Raycaster();
 
 
 // Automatic window resizing
