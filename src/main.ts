@@ -5,6 +5,7 @@ import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import {RGBELoader} from "three/examples/jsm/loaders/RGBELoader";
 import { DebugMainAnimation, Galaxy } from "./animation/mainAnimation"
+
 /*
 console.log('test')
 
@@ -24,12 +25,15 @@ const scene:Scene = new Scene()
 const axesHelper = new AxesHelper(5)
 scene.add(axesHelper)
 
-var light = new SpotLight();
-light.position.set(5, 5, 5)
-scene.add(light);
+//var light = new SpotLight();
+//light.position.set(5, 5, 5)
+//light.intensity = 1
+//scene.add(light);
 
 const camera: PerspectiveCamera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
-camera.position.z = 2
+camera.position.z = 7
+camera.position.x = 7
+camera.position.y = 5
 
 const renderer: WebGLRenderer = new WebGLRenderer()
 //renderer.physicallyCorrectLights = true
@@ -41,6 +45,10 @@ document.body.appendChild(renderer.domElement)
 const controls = new OrbitControls(camera, renderer.domElement)
 
 
+// Transform control :
+
+
+// Loading the galaxy model
 
 const loader = new GLTFLoader()
 loader.load(
@@ -60,7 +68,14 @@ loader.load(
         //         l.shadow.mapSize.height = 2048
         //     }
         // })
+        let galaxy
+        galaxy = gltf.scene.children[0];
+        galaxy.position.set(-11,-11,11);
+        galaxy.scale.set(0.1, 0.1, 0.1)
+        
+        
         scene.add(gltf.scene);
+        
     },
     (xhr) => {
         console.log((xhr.loaded / xhr.total * 100) + '% loaded')
@@ -69,6 +84,12 @@ loader.load(
         console.log(error);
     }
 );
+
+
+
+
+
+// Automatic window resizing
 
 window.addEventListener('resize', onWindowResize, false)
 function onWindowResize() {
@@ -79,6 +100,10 @@ function onWindowResize() {
 }
 
 
+
+
+
+// animation
 var animate = function () {
     requestAnimationFrame(animate)
 

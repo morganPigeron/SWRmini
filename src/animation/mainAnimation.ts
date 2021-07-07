@@ -48,7 +48,7 @@ export class DebugMainAnimation extends MainAnimation {
 
     super(
       new PerspectiveCamera(
-        70,
+        75,
         window.innerWidth / window.innerHeight,
         0.25,
         20
@@ -106,6 +106,7 @@ export class DebugMainAnimation extends MainAnimation {
         //gltf.cameras; // Array<THREE.Camera>
         //gltf.asset; // Object
       },
+    
       // called while loading is progressing
       (xhr) => {
         console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
