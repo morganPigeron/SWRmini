@@ -1,6 +1,6 @@
-import { Planet } from "../class/galaxy/planet"
-import { Sector, systemType } from "../class/galaxy/sector";
-import { PlanetaryDefence } from "../class/planetaryDefence/planetaryDefence";
+import { Planet } from "../galaxy/planet"
+import { Sector, systemType } from "../galaxy/sector";
+import { PlanetaryDefence } from "../planetaryDefence/planetaryDefence";
 import { planetName, factionsAllegiance } from "./types";
 
 
