@@ -70,9 +70,10 @@ export class ThreeJsService {
   public addlight(light:Light){
     this.scene.add(light);
   }
-  
-  public loadGltfModel(url: string) {
-    let object = new Promise<Object3D>( (resolve,reject) => { //we need to wait during loading
+
+
+  public async loadGltfModel(url: string) {
+    const object = await new Promise<Object3D>( (resolve,reject) => { //we need to wait during loading
       this.loader.load(
         url,
         (gltf) => {
