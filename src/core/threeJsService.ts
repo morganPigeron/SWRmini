@@ -1,6 +1,7 @@
-import { AxesHelper, Clock, PerspectiveCamera, Scene, sRGBEncoding, WebGLRenderer } from "three";
+import { AxesHelper, Clock, PerspectiveCamera, Scene, sRGBEncoding, WebGLRenderer, AmbientLight, Vector3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+
 
 export class ThreeJsService {
   private scene: Scene;
@@ -8,6 +9,10 @@ export class ThreeJsService {
   private renderer: WebGLRenderer;
   private loader: GLTFLoader;
   private controls: OrbitControls;
+  private light = new AmbientLight( 0x404040 ); // soft white light
+  
+
+
 
   constructor() {
     this.scene = new Scene();
@@ -20,6 +25,7 @@ export class ThreeJsService {
     this.renderer = new WebGLRenderer();
     this.loader = new GLTFLoader();
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+    this.scene.add( this.light )
     
     this.addCanvasInHtml();
 
@@ -35,7 +41,7 @@ export class ThreeJsService {
     const axesHelper = new AxesHelper(5);
     this.scene.add(axesHelper);
     //orbit control
-    this.camera.position.set( 0, 20, 100 );
+    this.camera.position.set( 0,13, 0 );
     this.controls.update();
   }
 
@@ -65,13 +71,18 @@ export class ThreeJsService {
     this.renderer.render(this.scene, this.camera);
   }
 
-  public loadGltfModel(url: string) {
+  private lightning(){
+    this.scene.add(this.light);
+  }
+  
+  public loadGltfModel(url: string, x :number, y:number, z : number) {
     this.loader.load(
       url,
       (gltf) => {
         let galaxy;
         galaxy = gltf.scene.children[0];
-        galaxy.position.set(-11, -11, 11);
+        
+        galaxy.position.set(x,y,z);
         galaxy.scale.set(0.1, 0.1, 0.1);
 
         this.scene.add(gltf.scene);
@@ -85,3 +96,4 @@ export class ThreeJsService {
     );
   }
 }
+
