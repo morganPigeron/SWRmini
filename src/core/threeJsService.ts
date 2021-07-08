@@ -1,6 +1,7 @@
 import { AxesHelper, Clock, PerspectiveCamera, Scene, sRGBEncoding, WebGLRenderer, AmbientLight, Vector3, Light, Object3D } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { updatable } from "./interfaces/updatable";
 
 
 export class ThreeJsService {
@@ -10,6 +11,7 @@ export class ThreeJsService {
   private loader: GLTFLoader;
   private controls: OrbitControls;
 
+  private updatables:updatable[]=[];
 
   constructor() {
     this.scene = new Scene();
@@ -60,11 +62,16 @@ export class ThreeJsService {
   private animate(t:number) {
     requestAnimationFrame(t=>this.animate(t));
     this.controls.update();
+    this.updatables.forEach(f => f());
     this.render();
   }
 
   private render() {
     this.renderer.render(this.scene, this.camera);
+  }
+  
+  public addUpdate(fun:updatable) {
+    this.updatables.push(fun);
   }
 
   public addlight(light:Light){
@@ -72,11 +79,13 @@ export class ThreeJsService {
   }
 
 
-  public async loadGltfModel(url: string) {
+  public async loadGltfModel(url: string, offset={tx:0,ty:0,tz:0,rx:0,ry:0,rz:0}) {
     const object = await new Promise<Object3D>( (resolve,reject) => { //we need to wait during loading
       this.loader.load(
         url,
         (gltf) => {
+          gltf.scene.children[0].position.set(offset.tx,offset.ty,offset.tz);
+          gltf.scene.children[0].rotation.set(offset.rx,offset.ry,offset.rz);
           this.scene.add(gltf.scene);
           resolve(gltf.scene.children[0]); // resolve an Object3d when loaded
         },
