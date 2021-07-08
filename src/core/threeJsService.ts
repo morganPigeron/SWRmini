@@ -1,4 +1,4 @@
-import { AxesHelper, Clock, PerspectiveCamera, Scene, sRGBEncoding, WebGLRenderer, AmbientLight, Vector3 } from "three";
+import { AxesHelper, Clock, PerspectiveCamera, Scene, sRGBEncoding, WebGLRenderer, AmbientLight, Vector3, Light, Object3D } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
@@ -9,9 +9,6 @@ export class ThreeJsService {
   private renderer: WebGLRenderer;
   private loader: GLTFLoader;
   private controls: OrbitControls;
-  private light = new AmbientLight( 0x404040 ); // soft white light
-  
-
 
 
   constructor() {
@@ -25,7 +22,6 @@ export class ThreeJsService {
     this.renderer = new WebGLRenderer();
     this.loader = new GLTFLoader();
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
-    this.scene.add( this.light )
     
     this.addCanvasInHtml();
 
@@ -71,29 +67,28 @@ export class ThreeJsService {
     this.renderer.render(this.scene, this.camera);
   }
 
-  private lightning(){
-    this.scene.add(this.light);
+  public addlight(light:Light){
+    this.scene.add(light);
   }
   
-  public loadGltfModel(url: string, x :number, y:number, z : number) {
-    this.loader.load(
-      url,
-      (gltf) => {
-        let galaxy;
-        galaxy = gltf.scene.children[0];
-        
-        galaxy.position.set(x,y,z);
-        galaxy.scale.set(0.1, 0.1, 0.1);
-
-        this.scene.add(gltf.scene);
-      },
-      (xhr) => {
-        console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+  public loadGltfModel(url: string) {
+    let object = new Promise<Object3D>( (resolve,reject) => { //we need to wait during loading
+      this.loader.load(
+        url,
+        (gltf) => {
+          this.scene.add(gltf.scene);
+          resolve(gltf.scene.children[0]); // resolve an Object3d when loaded
+        },
+        (xhr) => {
+          console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+        },
+        (error) => {
+          console.log(error);
+          reject(error); // reject if any error
+        }
+      );
+    });
+    return object;
   }
 }
 
