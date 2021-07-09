@@ -1,5 +1,6 @@
 import { AmbientLight, GreaterEqualStencilFunc, Vector3 } from "three";
 import { ThreeJsService } from "./core/threeJsService";
+import { DraggableWindow } from "./core/windowsService";
 
 export async function app() {
   // now here we can use await without any problem
@@ -38,4 +39,10 @@ export async function app() {
     circle.style.top = e.pageY + -20 + "px";
     circle.innerHTML = `x:${e.pageX},y:${e.pageY}`;
   });
+
+
+
+  //test 
+
+  const test = new DraggableWindow("testWindow");
 }

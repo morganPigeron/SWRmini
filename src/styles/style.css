@@ -29,6 +29,9 @@ body {
   width: 640px;
   z-index: 1;
   background-color: rgba(50, 50, 50, 0.5);
+
+  resize: both;
+  overflow: auto;
 }
 .header {
   display: flex;
