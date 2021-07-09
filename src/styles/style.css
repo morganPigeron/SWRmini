@@ -38,14 +38,10 @@ body {
   top: 0;
   height: 20px;
   background-color: rgba(104, 104, 104, 0.815);
+  cursor: move;
 }
 .title{
  font-family: 'Courier New', Courier, monospace;
  margin: auto 0;
-}
-.exitButton{
-
-}
-#testWindow {
-  color: chartreuse;
+ color: chartreuse;
 }
