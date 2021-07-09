@@ -8,43 +8,4 @@ body {
   z-index: 0;
 }
 
-.over {
-  z-index: 100;
-  position: absolute;
-  transform: translate(-50%, -50%);
-  height: 20px;
-  width: 85px;
-  background-color: dimgrey;
-}
 
-#test {
-  color: chartreuse;
-}
-
-.window {
-  position: absolute;
-  left: 10%;
-  top: 10%;
-  height: 480px;
-  width: 640px;
-  z-index: 1;
-  background-color: rgba(50, 50, 50, 0.5);
-
-  resize: both;
-  overflow: auto;
-}
-.header {
-  display: flex;
-  justify-content: space-between;
-  position: relative;
-  left: 0;
-  top: 0;
-  height: 20px;
-  background-color: rgba(104, 104, 104, 0.815);
-  cursor: move;
-}
-.title{
- font-family: 'Courier New', Courier, monospace;
- margin: auto 0;
- color: chartreuse;
-}

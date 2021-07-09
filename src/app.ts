@@ -1,5 +1,6 @@
 import { AmbientLight, GreaterEqualStencilFunc, Vector3 } from "three";
 import { ThreeJsService } from "./core/threeJsService";
+import { MouseCoordinate } from "./core/toolTip";
 import { DraggableWindow } from "./core/windowsService";
 
 export async function app() {
@@ -31,18 +32,16 @@ export async function app() {
     planet.rotateY(0.01); // (jour)
   });
 
-  //fun with mouse
 
-  let circle = document.getElementById("test")!;
-  document.addEventListener("mousemove", (e) => {
-    circle.style.left = e.pageX + 20 + "px";
-    circle.style.top = e.pageY + -20 + "px";
-    circle.innerHTML = `x:${e.pageX},y:${e.pageY}`;
-  });
 
 
 
   //test 
+  //window
+  const testWindow = new DraggableWindow("testWindow");
+  testWindow.addElement('p','test',Date.now());
 
-  const test = new DraggableWindow("testWindow");
+  //mouse
+  const mouse = new MouseCoordinate();
+  setTimeout(()=>{mouse.remove()},5000)
 }

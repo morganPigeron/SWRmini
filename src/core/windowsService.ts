@@ -89,4 +89,15 @@ export class DraggableWindow {
   private setTranslate(xPos: number, yPos: number, el: HTMLElement) {
     el.style.transform = "translate3d(" + xPos + "px, " + yPos + "px, 0)";
   }
+
+
+  //PUBLIC-------------------------------------------------------------------
+
+  public addElement<K extends keyof HTMLElementTagNameMap>(tag: K, text?:string, variable?: string | number) {
+    const elem = document.createElement(tag)
+    if(text) elem.innerHTML += text;
+    if(variable) elem.innerHTML += ` ${variable} `; 
+    this.container.appendChild(elem);
+  }
+
 }
