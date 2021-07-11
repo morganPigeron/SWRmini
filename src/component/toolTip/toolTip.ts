@@ -1,3 +1,5 @@
+import "./tooltip.css";
+
 export class MouseCoordinate {
 
   private coor:HTMLElement;

@@ -1,8 +1,8 @@
-import { planetaryDefenceInfo } from "../../interface/common";
-import { DebugPlanet } from "../galaxy/planet";
+import { planetaryDefenceInfo } from "../interface/common";
+import { DebugPlanet } from "../model/galaxy/planet";
 import {
   DebugPlanetaryDefence,
-} from "./planetaryDefence";
+} from "../model/planetaryDefence/planetaryDefence";
 
 describe("debug planetary defence Test Suite", () => {
   const defence = new DebugPlanetaryDefence();

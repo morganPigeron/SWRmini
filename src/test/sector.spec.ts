@@ -1,5 +1,5 @@
-import { Planet } from "./planet";
-import { DebugSector } from "./sector";
+import { Planet } from "../model/galaxy/planet";
+import { DebugSector } from "../model/galaxy/sector";
 
 describe("Sector debug test suite", () => {
   const sector = new DebugSector();

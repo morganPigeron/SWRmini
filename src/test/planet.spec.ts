@@ -1,9 +1,9 @@
-import { fleet, mission, regiment } from "../../interface/common";
-import { infrastructure } from "../../interface/infrastructure";
-import { ground, planetInfo } from "../../interface/planetInfo";
-import { coordinate } from "../../interface/types";
-import { DebugPlanet } from "./planet";
-import { DebugSector } from "./sector";
+import { planetInfo, fleet, mission, ground, regiment } from "../interface/common";
+import { infrastructure } from "../interface/infrastructure";
+import { coordinate } from "../interface/types";
+import { DebugPlanet } from "../model/galaxy/planet";
+import { DebugSector } from "../model/galaxy/sector";
+
 
 describe("Debug planet initialisation test suite", () => {
   const planet = new DebugPlanet();

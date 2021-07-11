@@ -1,7 +1,8 @@
 import { AxesHelper, Clock, PerspectiveCamera, Scene, sRGBEncoding, WebGLRenderer, AmbientLight, Vector3, Light, Object3D } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import { updatable } from "./interfaces/updatable";
+import { updatable } from "../interface/updatable";
+
 
 
 export class ThreeJsService {

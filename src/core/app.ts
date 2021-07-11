@@ -1,7 +1,7 @@
-import { AmbientLight, GreaterEqualStencilFunc, Vector3 } from "three";
-import { ThreeJsService } from "./core/threeJsService";
-import { MouseCoordinate } from "./core/toolTip";
-import { DraggableWindow } from "./core/windowsService";
+import { AmbientLight } from "three";
+import { MouseCoordinate } from "../component/toolTip/toolTip";
+import { DebugWindow } from "../component/window/debugWindow";
+import { ThreeJsService } from "../services/threeJsService";
 
 export async function app() {
   // now here we can use await without any problem
@@ -32,16 +32,14 @@ export async function app() {
     planet.rotateY(0.01); // (jour)
   });
 
-
-
-
-
-  //test 
+  //test
   //window
-  const testWindow = new DraggableWindow("testWindow");
-  testWindow.addElement('p','test',Date.now());
+  const testWindow = new DebugWindow("testWindow");
+  testWindow.addElement("p", "test", Date.now());
 
   //mouse
   const mouse = new MouseCoordinate();
-  setTimeout(()=>{mouse.remove()},5000)
+  setTimeout(() => {
+    mouse.remove();
+  }, 5000);
 }
