@@ -22,17 +22,17 @@ export async function app() {
   galaxy.scale.set(0.1, 0.1, 0.1);
   // add function to main update loop
   threeJsService.addUpdate(() => {
-    galaxy.parent!.rotation.y += 0.001; // rotate from parent coordinate (global axis)
+    galaxy.parent!.rotation.y += 0.0001; // rotate from parent coordinate (global axis)
   });
 
   planet.position.set(5, 0, 0);
-  planet.scale.set(0.1, 0.1, 0.1);
+  planet.scale.set(0.05, 0.05, 0.05);
   // add another function to main update loop
 
   
   threeJsService.addUpdate(() => {
-    planet.parent!.rotation.y += 0.001; // rotate from parent coordinate (global axis) (année)
-    planet.rotateY(0.01); // (jour)
+    planet.parent!.rotation.y += 0.0001; // rotate from parent coordinate (global axis) (année)
+    planet.rotateY(0.001); // (jour)
   });
   
   
@@ -67,6 +67,7 @@ export async function app() {
   const pointer = new Vector2();
   let raycaster = new Raycaster();
   let renderer = await threeJsService.rendererTest()
+  let control = threeJsService.changeControl();
   
 
   //renderer.domElement.addEventListener('dblclick', onDoubleClick, false);
@@ -85,11 +86,20 @@ export async function app() {
 
 				if ( intersects.length > 0 ) {
 
+  
+        
+        
 				let p = intersects[ 0 ].point;
-        let lol = p.x + 2 ;
+        let lol = p.x + 1 ;
         p.setX(lol)
         camera.position.copy(p);
         camera.lookAt(p); 
+        
+        threeJsService.addUpdate(() => {
+          planet.parent!.rotation.y = 0;
+          })
+        
+
 
   }
 }
@@ -120,6 +130,7 @@ export async function app() {
     }
   }
   threeJsService.addUpdate(raycast);
+  
   
    // tu avais juste oublié d'ajouté ta fonction à la boucle d'update de threeJsService
   // tu peux y mettre n'importe quel fonction de type "updatable" regarde le dossier interface.

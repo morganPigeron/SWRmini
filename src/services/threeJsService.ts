@@ -93,6 +93,10 @@ export class ThreeJsService {
     return this.renderer
   }
 
+  public changeControl(){
+    return this.controls
+  }
+
 
   public async loadGltfModel(url: string, offset={tx:0,ty:0,tz:0,rx:0,ry:0,rz:0}) {
     const object = await new Promise<Object3D>( (resolve,reject) => { //we need to wait during loading
