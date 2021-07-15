@@ -2,7 +2,6 @@ import { AmbientLight, Camera, PerspectiveCamera, Scene, Vector2, Vector3, Rayca
 import { MouseCoordinate } from "../component/toolTip/toolTip";
 import { DebugWindow } from "../component/window/debugWindow";
 import { ThreeJsService } from "../services/threeJsService";
-import {Face3, Geometry} from "three/examples/jsm/deprecated/Geometry";
 
 export async function app() {
   // now here we can use await without any problem
@@ -53,10 +52,16 @@ export async function app() {
 
   // TEST RAYCASTER
 
-  let camera = threeJsService.cam()
+  let camera = threeJsService.cam() //cette fonction renvoie l'objet camera, donne lui un nom plus explicite, 
+  // ex getCamera. C'est bien tu as compris le principe, tu as besoin de la camera tu va la chercher dans
+  // l'objet threeJsService via une petite fonction que tu as écris. 
+  // par contre tu avait changé des variables de privé à public, ne fais pas ça, continue a ajouté des petites fonctions on rangera plus tard. 
+  //Va voir threeJsService, j'ai tout remis en privé pour ne pas que l'on casse tout. 
+
   camera.position.set( 0,13, 0 );
 
-  let scene = threeJsService.sceneUpdate();
+  let scene = threeJsService.sceneUpdate(); // Tu as créer une fonction sceneUpdate qui retourne l'objet Scene.
+  // n'hésite pas à lui donner un nom plus explicite , ex getScene.
 
   const pointer = new Vector2();
   let raycaster = new Raycaster();
@@ -75,7 +80,7 @@ export async function app() {
 
 
   
-  function onMouseMove( event ) {
+  function onMouseMove( event:MouseEvent ) { // Tu avais oublié de mettre que c'est un évenement de type MouseEvent, si tu ne sais pas quel type mettre , tu peux uiliser Any, je changerais après.
 
       pointer.x = ( event.clientX / window.innerWidth ) * 2 - 1;
       pointer.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
@@ -101,19 +106,18 @@ export async function app() {
         // line.position.set(0, 0, 0);
         // line.lookAt(intersects[0].face.normal);
         // line.position.copy(intersects[0].point);
-        console.log(intersects.length)
-
-        let n = new Vector3();
-        n.copy((intersects[0].face as Face3 ).normal);
-        n.transformDirection(intersects[0].object.matrixWorld);
-
-        arrowHelper.setDirection(n);
-        arrowHelper.position.copy(intersects[0].point);
-
+        
+        console.log(intersects)  // regarde la console et voit ce que tu peux récupérer de la liste d'objet intersect
+        // J'ai enlevé le reste tu utilisais des fonctions "deprecated", regarde la doc officiel threeJs.
     }
   
   }
   
+  threeJsService.addUpdate(raycast); // tu avais juste oublié d'ajouté ta fonction à la boucle d'update de threeJsService
+  // tu peux y mettre n'importe quel fonction de type "updatable" regarde le dossier interface.
+  // updatable c'est une fonction qui ne prend pas d'argument et qui ne renvoie rien " () => {} ".
+  // elle sert a mettre des trucs qui seront appellé a chaque frame , par exemple ton raycast.
+
 
 }
 

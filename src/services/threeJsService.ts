@@ -6,13 +6,12 @@ import {Geometry} from "three/examples/jsm/deprecated/Geometry";
 
 
 export class ThreeJsService {
-  
-  public scene: Scene;
+  // Laisse tout en privé ici ! sinon on va pouvoir tout modifié depuis nimporte où (ça va être le bordel)
+  private scene: Scene;
   private camera: PerspectiveCamera;
-  public renderer: WebGLRenderer;
+  private renderer: WebGLRenderer;
   private loader: GLTFLoader;
   private controls: OrbitControls;
-  public sceneMeshes = new Array()
 
   private updatables:updatable[]=[];
 
