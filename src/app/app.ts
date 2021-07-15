@@ -1,6 +1,7 @@
 import { AmbientLight } from "three";
 import { MouseCoordinate } from "../component/toolTip/toolTip";
 import { DebugWindow } from "../component/window/debugWindow";
+import { tempTest } from "../services/reactWindowsService";
 import { ThreeJsService } from "../services/threeJsService";
 
 export async function app() {
@@ -36,6 +37,9 @@ export async function app() {
   //window
   const testWindow = new DebugWindow("testWindow");
   testWindow.addElement("p", "test", Date.now());
+
+  tempTest();
+
 
   //mouse
   const mouse = new MouseCoordinate();

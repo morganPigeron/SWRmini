@@ -1,3 +1,4 @@
+import React from "react";
 import { DraggableWindow } from "../../services/windowsService";
 
 import "./window.css";
