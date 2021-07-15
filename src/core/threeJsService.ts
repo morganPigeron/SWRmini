@@ -1,20 +1,19 @@
-import { AxesHelper, Clock, PerspectiveCamera, Scene, sRGBEncoding, WebGLRenderer, AmbientLight, Vector3, Light, Object3D } from "three";
+import { AxesHelper, Clock, PerspectiveCamera, Scene, sRGBEncoding, WebGLRenderer, AmbientLight, Vector3, Light, Object3D, Raycaster,Vector2, ArrowHelper } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { updatable } from "../interface/updatable";
-import {Geometry} from "three/examples/jsm/deprecated/Geometry";
+
 
 
 export class ThreeJsService {
   
   public scene: Scene;
-  private camera: PerspectiveCamera;
-  public renderer: WebGLRenderer;
+  public camera: PerspectiveCamera;
+  private renderer: WebGLRenderer;
   private loader: GLTFLoader;
   private controls: OrbitControls;
-  public sceneMeshes = new Array()
-
   private updatables:updatable[]=[];
+
 
   constructor() {
     this.scene = new Scene();
@@ -32,19 +31,32 @@ export class ThreeJsService {
 
     this.addEventListener();
     this.addHelpers();
-    
+    this .scene.add(this.camera)
     this.animate(0);
 
+  
+    
   }
+
+ 
+
+  
 
   private addHelpers() {
     //axis
     const axesHelper = new AxesHelper(5);
     this.scene.add(axesHelper);
     //orbit control
-    
+    this.camera.position.set( 0,13, 0 );
     this.controls.update();
   }
+
+  public setcamera(x : number,y : number,z:number){
+
+    return this.camera.position.set(x,y,z)
+
+  }
+
 
   private addCanvasInHtml() {
     this.renderer.outputEncoding = sRGBEncoding;
@@ -54,6 +66,7 @@ export class ThreeJsService {
 
   private addEventListener() {
     window.addEventListener("resize", () => this.onWindowResize(), false);
+    
   }
 
   private onWindowResize() {
@@ -69,8 +82,12 @@ export class ThreeJsService {
     this.render();
   }
 
+    
+  
+
   private render() {
     this.renderer.render(this.scene, this.camera);
+    
   }
   
   public addUpdate(fun:updatable) {
@@ -81,19 +98,7 @@ export class ThreeJsService {
     this.scene.add(light);
   }
 
-  public cam(){
-    return this.camera
-  }
-
-  public sceneUpdate(){
-
-    return this.scene
-  }
-
-  public rendererTest(){
-    return this.renderer
-  }
-
+  
 
   public async loadGltfModel(url: string, offset={tx:0,ty:0,tz:0,rx:0,ry:0,rz:0}) {
     const object = await new Promise<Object3D>( (resolve,reject) => { //we need to wait during loading
@@ -101,7 +106,6 @@ export class ThreeJsService {
         url,
         (gltf) => {
 
-          
           
           gltf.scene.children[0].position.set(offset.tx,offset.ty,offset.tz);
           gltf.scene.children[0].rotation.set(offset.rx,offset.ry,offset.rz);
